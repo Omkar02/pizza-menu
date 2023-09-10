@@ -41,25 +41,28 @@ function Menu() {
     // const pizzas = []
     const numPizza = pizzas.length
 
+    let render = ""
+    if (numPizza > 0) {
+        render = <>
+                    <p>
+                        Authentic Italian cuisine. 6 creative dishes to choose from. All
+                        from our stone oven, all organic, all delicious.
+                    </p>
+
+                    <ul className="pizzas">
+                        {pizzas.map((pizza) => (
+                            <Pizza pizzaObj={pizza} key={pizza.name} />
+                        ))}
+                    </ul>
+                 </>
+    } else {
+        render =  <p>We're still working on our menu. Please come back Later :)</p>
+    }
+
     return (
         <main className="menu">
             <h2>Our Menu</h2>
-            {numPizza > 0 ? (
-                <>
-                <p>
-                    Authentic Italian cuisine. 6 creative dishes to choose from. All
-                    from our stone oven, all organic, all delicious.
-                </p>
-
-                <ul className="pizzas">
-                    {pizzas.map((pizza) => (
-                        <Pizza pizzaObj={pizza} key={pizza.name} />
-                    ))}
-                </ul>
-                </>
-            ) : (
-                <p>We're still working on our menu. Please come back Later :)</p>
-            )}
+            {render}
         </main>
     )
 }
@@ -96,23 +99,30 @@ function Footer(){
     const openHour = 12
     const closeHour = 22
     const isOpen = hour >= openHour && hour <= closeHour
-
+    
     console.log(`isOpen = ${isOpen}`)
+    let msg = ""
+
+    if (isOpen){
+        msg = <Order closeHour={closeHour} openHour={openHour}/>
+    } else {
+        msg = <p>
+                We're happy to welcome you between {openHour}:00 and {closeHour}:00.
+             </p>
+    }
 
     return (
         <footer className="footer">
-            { isOpen ? (
-                <Order closeHour={closeHour} openHour={openHour}/>
-            ):(
-                <p>
-                    We're happy to welcome you between {openHour}:00 and {closeHour}:00.
-                </p>
-            )}
+            {msg}
         </footer>
     )
 }
 
 function Order({ openHour, closeHour }){
+    /**
+     * this is a sub function called by Footer 
+     * And here the input props are deconstructed 
+     */
     return (
         <div className="order">
             <p>
